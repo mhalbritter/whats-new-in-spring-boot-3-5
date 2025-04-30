@@ -1,0 +1,26 @@
+apiVersion: 'apps/v1'
+kind: 'Deployment'
+metadata:
+  name: 'springboot-deployment'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 'springboot-app'
+  template:
+    metadata:
+      labels:
+        app: 'springboot-app'
+    spec:
+      containers:
+        - name: 'springboot-container'
+          image: 'mycluster-registry:46571/library/boot-three-five:0.0.1-SNAPSHOT'
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: 'env:MY_CONFIGURATION'
+            - name: MY_CONFIGURATION
+              value: |-
+                my.name=Moritz
+                my.employer=VMware
